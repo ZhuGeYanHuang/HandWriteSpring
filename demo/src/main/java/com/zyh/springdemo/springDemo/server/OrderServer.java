@@ -1,10 +1,7 @@
 package com.zyh.springdemo.springDemo.server;
 
 
-import com.zyh.springdemo.springDemo.zyhspring.Autowired;
-import com.zyh.springdemo.springDemo.zyhspring.BeanNameAware;
-import com.zyh.springdemo.springDemo.zyhspring.Component;
-import com.zyh.springdemo.springDemo.zyhspring.Scope;
+import com.zyh.springdemo.springDemo.zyhspring.*;
 
 /**
  * <p></p>
@@ -13,7 +10,7 @@ import com.zyh.springdemo.springDemo.zyhspring.Scope;
  **/
 @Component
 @Scope(value = "prototype")
-public class OrderServer implements OrderInterface, BeanNameAware {
+public class OrderServer implements OrderInterface, BeanNameAware, InitializingBean {
 
     @Autowired
     private MemberServer memberServer;
@@ -28,5 +25,10 @@ public class OrderServer implements OrderInterface, BeanNameAware {
     @Override
     public void setBeanName(String name) {
         beanName = name;
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        System.out.println("----q--");
     }
 }
