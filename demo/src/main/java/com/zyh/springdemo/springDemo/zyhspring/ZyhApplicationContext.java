@@ -45,7 +45,6 @@ public class ZyhApplicationContext {
     private Object createBean(String beanName, BeanDefinition value) {
         Class type = value.getType();
         Object bean = null;
-
         try {
             bean = type.getConstructor().newInstance();
             //注入属性
@@ -57,28 +56,24 @@ public class ZyhApplicationContext {
                     field.set(bean, getBean(field.getName()));
                 }
             }
-
-            //
+            //bean初始化
             if (bean instanceof InitializingBean) {
                 ((InitializingBean) bean).afterPropertiesSet();
             }
-
+            //方法回调
             if (bean instanceof BeanNameAware) {
                 ((BeanNameAware) bean).setBeanName(beanName);
             }
-
-
+            //前置处理
             for (BeanPostProcessor postProcessor :
                     postProcessors) {
                 bean = postProcessor.postProcessBeforeInitialization(bean, beanName);
             }
-
-
+            //后置处理
             for (BeanPostProcessor postProcessor :
                     postProcessors) {
                 bean = postProcessor.postProcessAfterInitialization(bean, beanName);
             }
-
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -88,7 +83,6 @@ public class ZyhApplicationContext {
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
-
         return bean;
     }
 

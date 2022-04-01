@@ -16,6 +16,6 @@ public class MainDemo {
 
         OrderServer object = (OrderServer)context.getBean("orderServer");
         object.getOut();
+        System.out.println(object);
     }
-
 }
